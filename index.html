@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Akka Portfolio 2025 - Sultan Level</title>
+<style>
+  /* Reset & base */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    color: #222;
+    line-height: 1.6;
+    transition: background 0.4s, color 0.4s;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body.dark {
+    background: #121212;
+    color: #eee;
+  }
+  a {
+    color: #3a86ff;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  a:hover {
+    color: #60a5fa;
+  }
+
+  /* Scroll progress bar */
+  #progressBar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    background: #3a86ff;
+    width: 0;
+    z-index: 9999;
+    transition: width 0.25s ease-out;
+  }
+
+  /* Navbar */
+  nav {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    padding: 12px 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s, color 0.4s;
+  }
+  body.dark nav {
+    background: #1f1f1f;
+    box-shadow: 0 1px 8px rgba(255,255,255,0.1);
+  }
+  nav .logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #3a86ff;
+  }
+  body.dark nav .logo {
+    color: #60a5fa;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul li {
+    cursor: pointer;
+  }
+  nav ul li a {
+    font-weight: 600;
+  }
+  nav ul li a:hover {
+    color: #3a86ff;
+  }
+  /* Dark mode toggle button */
+  #darkToggle {
+    cursor: pointer;
+    background: #3a86ff;
+    border: none;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    transition: background 0.3s;
+  }
+  #darkToggle:hover {
+    background: #60a5fa;
+  }
+
+  /* Header */
+  header {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #3a86ff, #8338ec);
+    color: white;
+    position: relative;
+  }
+  header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.25);
+  }
+  header p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    max-width: 520px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px rgba(0,0,0,0.15);
+  }
+  header button {
+    background: #fff;
+    color: #3a86ff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(58,134,255,0.4);
+    transition: background 0.3s, color 0.3s;
+  }
+  header button:hover {
+    background: #60a5fa;
+    color: white;
+  }
+  body.dark header {
+    background: linear-gradient(135deg, #60a5fa, #8338ec);
+  }
+
+  /* Section Titles */
+  section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-align: center;
+    color: #3a86ff;
+  }
+  body.dark section h2 {
+    color: #60a5fa;
+  }
+
+  /* Projects Grid */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
+    padding: 0 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Project Card */
+  .project-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgb(0 0 0 / 0.12);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  body.dark .project-card {
+    background: #222;
+    box-shadow: 0 3px 18px rgba(255,255,255,0.15);
+  }
+  .project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(58,134,255,0.4);
+  }
+  .project-media {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+  }
+  .project-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .project-card:hover .project-media img {
+    transform: scale(1.05);
+  }
+  .project-caption {
+    padding: 16px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .project-caption div:first-child {
+    margin-bottom: 8px;
+  }
+  .project-caption .muted {
+    color: #666;
+    font-size: 0.85rem;
+  }
+  body.dark .project-caption .muted {
+    color: #bbb;
+  }
+
+  /* Skill bars */
+  .skills-section {
+    max-width: 900px;
+    margin: 40px auto 60px;
+    padding: 0 20px;
+  }
+  .skill {
+    margin-bottom: 20px;
+  }
+  .skill-name {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .skill-bar {
+    width: 100%;
+    background: #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 20px;
+  }
+  body.dark .skill-bar {
+    background: #333;
+  }
+  .skill-progress {
+    height: 100%;
+    width: 0;
+    background: #3a86ff;
+    border-radius: 12px;
+    transition: width 2s ease-in-out;
+  }
+  body.dark .skill-progress {
+    background: #60a5fa;
+  }
+  .skill-percent {
+    font-weight: 600;
+    margin-left: 8px;
+    color: #3a86ff;
+  }
+  body.dark .skill-percent {
+    color: #60a5fa;
+  }
+
+  /* Testimonials slider */
+  .testimonials {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+    position: relative;
+  }
+  .testimonial-slide {
+    background: white;
+    padding: 24px 30px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    display: none;
+    font-style: italic;
+    color: #222;
+    line-height: 1.5;
+  }
+  body.dark .testimonial-slide {
+    background: #222;
+    color: #eee;
+    box-shadow: 0 6px 20px rgba(255,255,255,0.15);
+  }
+  .testimonial-slide.active {
+    display: block;
+  }
+  .testimonial-author {
+    font-weight: 700;
+    margin-top: 16px;
+    text-align: right;
+    color: #3a86ff;
+  }
+  body.dark .testimonial-author {
+    color: #60a5fa;
+  }
+  .testimonial-controls {
+    text-align: center;
+    margin-top: 12px;
+  }
+  .testimonial-controls button {
+    border: none;
+    background: #3a86ff;
+    color: white;
+    padding: 8px 14px;
+    margin: 0 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .testimonial-controls button:hover {
+    background: #60a5fa;
+  }
+
+  /* Modal styles */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1500;
+  }
+  .modal-overlay.active {
+    display: flex;
+  }
+  .modal-content {
+    background: white;
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 12px;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+  }
+  body.dark .modal-content {
+    background: #222;
+    color: #eee;
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 24px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #3a86ff;
+  }
+  .modal-close:hover {
+    color: #60a5fa;
+  }
+  .modal-video {
+    margin-top: 20px;
+    width: 100%;
+    height: 300px;
+  }
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 2.2rem;
+    }
+    header p {
+      font-size: 1rem;
+    }
+    nav ul {
+      gap: 12px;
+    }
+    .project-media {
+      height: 140px;
+    }
+    .modal-video {
+      height: 200px;
+    }
+  }
+
+  /* Chatbot mini */
+  #chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 320px;
+    max-width: 90vw;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    user-select: none;
+    transition: transform 0.4s ease;
+    transform: translateY(100%);
+    z-index: 2000;
+  }
+  body.dark #chatbot {
+    background: #222;
+    color: #eee;
+    box-shadow: 0 12px 30px rgba(255,255,255,0.2);
+  }
+  #chatbot.active {
+    transform: translateY(0);
+  }
+  #chatbot-header {
+    background: #3a86ff;
+    color: white;
+    padding: 12px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  body.dark #chatbot-header {
+    background: #60a5fa;
+  }
+  #chatbot-close {
+    font-size: 20px;
+    cursor: pointer;
+  }
+  #chatbot-messages {
+    flex: 1;
+    padding: 12px 16px;
+    overflow-y: auto;
+    background: #f9f9f9;
+  }
+  body.dark #chatbot-messages {
+    background: #333;
+  }
+  .chatbot-message {
+    margin-bottom: 12px;
+    max-width: 75%;
+    padding: 8px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .chatbot-message.bot {
+    background: #3a86ff;
+    color: white;
+    align-self: flex-start;
+  }
+  .chatbot-message.user {
+    background: #e5e5e5;
+    color: #222;
+    align-self: flex-end;
+  }
+  body.dark .chatbot-message.user {
+    background: #444;
+    color: #eee;
+  }
+  #chatbot-input-area {
+    padding: 10px 16px;
+    background: #eee;
+    display: flex;
+  }
+  body.dark #chatbot-input-area {
+    background: #111;
+  }
+  #chatbot-input {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+  }
+  #chatbot-send {
+    margin-left: 12px;
+    background: #3a86ff;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.3s;
+  }
+  #chatbot-send:hover {
+    background: #60a5fa;
+  }
+
+  /* Scroll reveal fade & slide up */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+</style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<nav>
+  <div class="logo">Akka</div>
+  <ul>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button id="darkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+</nav>
+
+<header>
+  <h1>Hi, I'm Akka</h1>
+  <p>Future-ready developer & crypto enthusiast. Let's build the next big thing together!</p>
+  <button id="openResumeBtn">View Resume</button>
+</header>
+
+<section id="projects">
+  <h2>Projects & case studies</h2>
+  <div class="projects">
+
+    <article class="project-card card reveal" data-id="1" tabindex="0">
+      <div class="project-media">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Portal Musik" />
+      </div>
+      <div class="project-caption">
+        <div>
+          <div><strong>Portal Musik — UI/UX</strong></div>
+          <div class="muted">Micro-interactions, PWA, offline-first</div>
+        </div>
+        <div class="muted">2025 • React</div>
+      </div>
+    </article>
+
+    <article class="project-card card reveal" data-id="2" tabindex="0">
+      <div class="project-media">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Realtime Dashboard" />
+      </div>
+      <div class="project-caption">
+        <div>
+          <div><strong>Realtime Dashboard</strong></div>
+          <div class="muted">Live charts, collaborative widgets</div>
+        </div>
+        <div class="muted">Data • Websockets</div>
+      </div>
+    </article>
+
+    <article class="project-card card reveal" data-id="3" tabindex="0">
+      <div class="project-media">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="E-Commerce App" />
+      </div>
+      <div class="project-caption">
+        <div>
+          <div><strong>E-Commerce App</strong></div>
+          <div class="muted">Mobile-first, secure checkout</div>
+        </div>
+        <div class="muted">2024 • React Native</div>
+      </div>
+    </article>
+
+    <article class="project-card card reveal" data-id="4" tabindex="0">
+      <div class="project-media">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop&ixlib=
